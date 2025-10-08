@@ -8,6 +8,9 @@ import { Book } from './entities/book.entity';
 import { Author } from './entities/author.entity';
 import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +27,7 @@ import { User } from './entities/user.entity';
     AuthorModule,
     BookModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
