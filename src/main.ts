@@ -6,17 +6,25 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Enable global validation
-app.useGlobalPipes(
-  new ValidationPipe({
-      whitelist: true, // removes any extra fields not in DTO
-    forbidNonWhitelisted: true,  // throws error if unknown fields exist
-    transform: true,             // automatically converts types (e.g., string → number)
-  }),
-);
-
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   app.setGlobalPrefix('api');
-  await app.listen(3000);
-  console.log('Server running at http://localhost:3000/api');
+
+  // Enable CORS so any device/browser can access
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  });
+
+  // Listen on all network interfaces
+  await app.listen(5000);
+
+  console.log('Server running at http://localhost:5000/api');
 }
 bootstrap();

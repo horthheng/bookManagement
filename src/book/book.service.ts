@@ -10,11 +10,16 @@ export class BookService {
     @InjectRepository(Author) private authorRepo: Repository<Author>,
   ) {}
 
-  async create(data: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const book = this.bookRepo.create(data);
-    return this.bookRepo.save(book);
-  }
+async create(data: any) {
+  const author = await this.authorRepo.findOne({ where: { id: data.authorId } });
+  if (!author) throw new Error('Author not found');
+
+  const book = this.bookRepo.create({
+    title: data.title,
+    author,
+  });
+  return this.bookRepo.save(book);
+}
 
   findAll() {
     return this.bookRepo.find();

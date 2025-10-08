@@ -6,6 +6,8 @@ import { AuthorModule } from './author/author.module';
 import { BookModule } from './book/book.module';
 import { Book } from './entities/book.entity';
 import { Author } from './entities/author.entity';
+import { UserModule } from './user/user.module';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -16,11 +18,12 @@ import { Author } from './entities/author.entity';
       username: 'root',
       password: '',
       database: 'bookmanagement',
-      entities: [Book, Author],
+      entities: [Book, Author, User],
       synchronize: true,
     }),
     AuthorModule,
     BookModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
