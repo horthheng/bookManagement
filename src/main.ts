@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path'; // <-- import join
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // Cast app as NestExpressApplication
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Enable global validation
   app.useGlobalPipes(
@@ -16,13 +19,17 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  // Enable CORS so any device/browser can access
+  // Enable CORS
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
 
-  // Listen on all network interfaces
+  // Serve static files (uploads)
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
+
   await app.listen(5000);
 
   console.log('Server running at http://localhost:5000/api');

@@ -10,4 +10,7 @@ export class Book {
 
   @ManyToOne(() => Author, (author) => author.books, { eager: true })
   author: Author;
+  
+  @Column({ nullable:true})
+  image: string;
 }

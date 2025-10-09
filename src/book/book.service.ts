@@ -14,10 +14,11 @@ async create(data: any) {
   const author = await this.authorRepo.findOne({ where: { id: data.authorId } });
   if (!author) throw new Error('Author not found');
 
-  const book = this.bookRepo.create({
-    title: data.title,
-    author,
-  });
+    const book = this.bookRepo.create({
+      title: data.title,
+      author,
+      image: data.image,
+    });
   return this.bookRepo.save(book);
 }
 
@@ -29,9 +30,23 @@ async create(data: any) {
     return this.bookRepo.findOneBy({ id });
   }
 
-  update(id: number, data: Partial<Book>) {
-    return this.bookRepo.update(id, data);
+async update(id: number, data: any) {
+  const book = await this.bookRepo.findOne({ where: { id } });
+  if (!book) throw new Error('Book not found');
+  // Update title
+  if (data.title) {
+    book.title = data.title;
   }
+  // Update author
+  if (data.authorId) {
+    const author = await this.authorRepo.findOne({ where: { id: data.authorId } });
+    if (!author) throw new Error('Author not found');
+    book.author = author;
+  }
+if (data.image !== undefined) book.image = data.image
+  return this.bookRepo.save(book);
+}
+
 
   remove(id: number) {
     return this.bookRepo.delete(id);

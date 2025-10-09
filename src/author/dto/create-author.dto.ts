@@ -1,7 +1,15 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateAuthorDto {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @IsNotEmpty()
+  @IsString()
   name: string;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
 }

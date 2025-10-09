@@ -9,6 +9,12 @@ export class Author {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  image: string;
+
+  @Column({ type: 'text', nullable: true })
+  bio: string;
+
   @OneToMany(() => Book, (book) => book.author)
   books: Book[];
 }
